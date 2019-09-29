@@ -3,18 +3,22 @@
 ## usersテーブル
 |Column|Type|Options|
 |------|----|-------|
-|user|text|null: false|
+|name|string|null: false|
 |email|text|null: false, unique|
 |password|text|null: false|
 
 ### Association
-- なし
+- hasmany_to :groups
+- hasmany_to :messages
+- hasmany_to :imgs
+
 ## groupsテーブル
 |Column|Type|Options|
 |------|----|-------|
-|name|text|null: false|
+|name|string|null: false|
+
 ### Association
-- なし
+- hasmany_to :groups
 
 ## group_usersテーブル（グループに誰が所属しているか）
 |Column|Type|Options|
@@ -22,39 +26,12 @@
 |user_id|integer|null: false, foreign_key: true|
 |group_id|integer|null: false, foreign_key: true|
 - belongs_to :group
-- hasmany_to :users
-
-## user_belongs_groupsテーブル（ユーザーがどんなグループに入っているか）
-|Column|Type|Options|
-|------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
-### Association
-- belongs_to :user
-- hasmany_to :groups
-
-## group_mastarsテーブル(グループを誰が作ったか)
-|Column|Type|Options|
-|------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
-
-### Association
-- hasmany_to :groups
 - belongs_to :user
 
 ## messagesテーブル
 |Column|Type|Options|
 |------|----|-------|
 |text|string|null: false|
-
-### Association
-- なし
-
-## group_messagesテーブル
-|Column|Type|Options|
-|------|----|-------|
-|messages_id|integer|null: false, foreign_key: true|
 |user_id|integer|null: false, foreign_key: true|
 |group_id|integer|null: false, foreign_key: true|
 
@@ -67,14 +44,6 @@
 |Column|Type|Options|
 |------|----|-------|
 |img|string|null: false, unique|
-
-### Association
-- なし
-
-## group_imgsテーブル
-|Column|Type|Options|
-|------|----|-------|
-|img|string|null: false, unique|
 |user_id|integer|null: false, foreign_key: true|
 |group_id|integer|null: false, foreign_key: true|
 
@@ -82,18 +51,6 @@
 - belongs_to :group
 - hasmany_to :users
 - hasmany_to :imgs
-
-## user_messegeテーブル(インデックス、メッセージ内容管理用)
-|Column|Type|Options|
-|------|----|-------|
-|user_name|integer|null: false, foreign_key: true|
-|group_name|integer|null: false, foreign_key: true|
-|message_text|integer|null: false, foreign_key: true|
-
-### Association
-- belongs_to :group
-- belongs_to :user
-
 
 
 # 機能洗い出しメモ
