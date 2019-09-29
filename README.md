@@ -4,7 +4,7 @@
 |Column|Type|Options|
 |------|----|-------|
 |user|text|null: false|
-|email|text|null: false|
+|email|text|null: false, duplicate: false|
 |password|text|null: false|
 
 ### Association
@@ -43,7 +43,7 @@
 ## imgsテーブル
 |Column|Type|Options|
 |------|----|-------|
-|img|string|null: false|
+|img|string|null: false, duplicate: false|
 |user_id|integer|null: false, foreign_key: true|
 |group_id|integer|null: false, foreign_key: true|
 
