@@ -8,39 +8,70 @@
 |password|text|null: false|
 
 ### Association
-- hasmany_to :groups
-- hasmany_to :messages
-- hasmany_to :imgs
-
+- なし
 ## groupsテーブル
 |Column|Type|Options|
 |------|----|-------|
 |name|text|null: false|
-- hasmany_to :messages
-- hasmany_to :imgs
+### Association
+- なし
 
-## group_mastarsテーブル(グループ作成者のフラグ管理)
+## group_usersテーブル（グループに誰が所属しているか）
+|Column|Type|Options|
+|------|----|-------|
+|user_id|integer|null: false, foreign_key: true|
+|group_id|integer|null: false, foreign_key: true|
+- belongs_to :group
+- hasmany_to :users
+
+## user_belongs_groupsテーブル（ユーザーがどんなグループに入っているか）
+|Column|Type|Options|
+|------|----|-------|
+|user_id|integer|null: false, foreign_key: true|
+|group_id|integer|null: false, foreign_key: true|
+### Association
+- belongs_to :user
+- hasmany_to :groups
+
+## group_mastarsテーブル(グループを誰が作ったか)
 |Column|Type|Options|
 |------|----|-------|
 |user_id|integer|null: false, foreign_key: true|
 |group_id|integer|null: false, foreign_key: true|
 
 ### Association
-- belongs_to :group
+- hasmany_to :groups
 - belongs_to :user
 
 ## messagesテーブル
 |Column|Type|Options|
 |------|----|-------|
 |text|string|null: false|
+
+### Association
+- なし
+
+## group_messagesテーブル
+|Column|Type|Options|
+|------|----|-------|
+|messages_id|integer|null: false, foreign_key: true|
 |user_id|integer|null: false, foreign_key: true|
 |group_id|integer|null: false, foreign_key: true|
 
 ### Association
 - belongs_to :group
-- belongs_to :user
+- hasmany_to :user
+- hasmany_to :messages
 
 ## imgsテーブル
+|Column|Type|Options|
+|------|----|-------|
+|img|string|null: false, unique|
+
+### Association
+- なし
+
+## group_imgsテーブル
 |Column|Type|Options|
 |------|----|-------|
 |img|string|null: false, unique|
@@ -49,9 +80,10 @@
 
 ### Association
 - belongs_to :group
-- belongs_to :user
+- hasmany_to :users
+- hasmany_to :imgs
 
-## user_messegeテーブル(インデックス)
+## user_messegeテーブル(インデックス、メッセージ内容管理用)
 |Column|Type|Options|
 |------|----|-------|
 |user_name|integer|null: false, foreign_key: true|
