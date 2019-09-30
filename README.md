@@ -8,9 +8,9 @@
 |password|text|null: false|
 
 ### Association
-- hasmany_to :groups
-- hasmany_to :messages
-- hasmany_to :imgs
+- has_many :groups, through: :group_users
+- has_many :group_users
+- has_many :messages
 
 ## groupsテーブル
 |Column|Type|Options|
@@ -18,8 +18,9 @@
 |name|string|null: false|
 
 ### Association
-- hasmany_to :users
-- hasmany_to :messages
+- has_many :users, through: :group_users
+- has_many :group_users
+- has_many :messages
 
 ## group_usersテーブル（グループに誰が所属しているか）
 |Column|Type|Options|
@@ -41,9 +42,7 @@
 
 ### Association
 - belongs_to :group
-- hasmany_to :user
-- hasmany_to :messages
-- hasmany_to :img
+- belongs_to :user
 
 # 機能洗い出しメモ
 ## ログイン
