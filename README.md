@@ -3,27 +3,30 @@
 ## usersテーブル
 |Column|Type|Options|
 |------|----|-------|
-|user|text|null: false|
+|name|string|null: false,index: true|
 |email|text|null: false, unique|
 |password|text|null: false|
 
 ### Association
-- hasmany_to :groups
-- hasmany_to :messages
-- hasmany_to :imgs
+- has_many :groups, through: :group_users
+- has_many :group_users
+- has_many :messages
 
 ## groupsテーブル
 |Column|Type|Options|
 |------|----|-------|
-|name|text|null: false|
-- hasmany_to :messages
-- hasmany_to :imgs
+|name|string|null: false,index: true|
 
-## group_mastarsテーブル(グループ作成者のフラグ管理)
+### Association
+- has_many :users, through: :group_users
+- has_many :group_users
+- has_many :messages
+
+## group_usersテーブル（グループに誰が所属しているか）
 |Column|Type|Options|
 |------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
+|user_id|references|null: false, foreign_key: true|
+|group_id|references|null: false, foreign_key: true|
 
 ### Association
 - belongs_to :group
@@ -32,37 +35,14 @@
 ## messagesテーブル
 |Column|Type|Options|
 |------|----|-------|
-|text|string|null: false|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
+|text|text||
+|img|string||
+|user_id|references|null: false, foreign_key: true|
+|group_id|references|null: false, foreign_key: true|
 
 ### Association
 - belongs_to :group
 - belongs_to :user
-
-## imgsテーブル
-|Column|Type|Options|
-|------|----|-------|
-|img|string|null: false, unique|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
-
-### Association
-- belongs_to :group
-- belongs_to :user
-
-## user_messegeテーブル(インデックス)
-|Column|Type|Options|
-|------|----|-------|
-|user_name|integer|null: false, foreign_key: true|
-|group_name|integer|null: false, foreign_key: true|
-|message_text|integer|null: false, foreign_key: true|
-
-### Association
-- belongs_to :group
-- belongs_to :user
-
-
 
 # 機能洗い出しメモ
 ## ログイン
@@ -128,9 +108,9 @@
 - メッセージがチャット画面に表示される（リアルタイム）
 - サイドバーの最新のチャット1件が表示更新される（リアルタイムでない）
 - URLはクリッカブルにならない←なったほうが便利なのでメモ
-- 画像の送信が遅かったらテキストなどが優先される（早く送れるほうを優先する）
+- 画像の送信が遅かったらテキストなどが優先される（早く送れるほうを優先する？）早すぎてわからん
 - 画像が送られたら最新コメントに「画像が投稿されました」←ここは分岐でdb使わない
-- 画像投稿コメントとは紐づかない
+- 画像投稿コメントとは紐づかない×　ひもづく←アイコンに選択してる感がない逮捕
 - お話中のキックされてもそのチャットルームに残る、更新されるといなくなる（グループ内のユーザー管理はリアルタイムでない）
 - キックしてもチャット履歴は残る（ユーザーがいなくなっても、投稿されたコメントはなくならない）
 - キックされた人の履歴の名前も更新される(つまりグループから抜けてもメッセージとコメントは紐づいてる)
