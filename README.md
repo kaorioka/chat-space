@@ -3,7 +3,7 @@
 ## usersテーブル
 |Column|Type|Options|
 |------|----|-------|
-|name|string|null: false|
+|name|string|null: false,index: true|
 |email|text|null: false, unique|
 |password|text|null: false|
 
@@ -15,7 +15,7 @@
 ## groupsテーブル
 |Column|Type|Options|
 |------|----|-------|
-|name|string|null: false|
+|name|string|null: false,index: true|
 
 ### Association
 - has_many :users, through: :group_users
@@ -25,8 +25,8 @@
 ## group_usersテーブル（グループに誰が所属しているか）
 |Column|Type|Options|
 |------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
+|user_id|references|null: false, foreign_key: true|
+|group_id|references|null: false, foreign_key: true|
 
 ### Association
 - belongs_to :group
@@ -35,10 +35,10 @@
 ## messagesテーブル
 |Column|Type|Options|
 |------|----|-------|
-|text|string|null: default|
-|img|string|null: default|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
+|text|text||
+|img|string||
+|user_id|references|null: false, foreign_key: true|
+|group_id|references|null: false, foreign_key: true|
 
 ### Association
 - belongs_to :group
