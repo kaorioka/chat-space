@@ -18,20 +18,24 @@
 |name|string|null: false|
 
 ### Association
-- hasmany_to :groups
+- hasmany_to :users
+- hasmany_to :messages
 
 ## group_usersテーブル（グループに誰が所属しているか）
 |Column|Type|Options|
 |------|----|-------|
 |user_id|integer|null: false, foreign_key: true|
 |group_id|integer|null: false, foreign_key: true|
+
+### Association
 - belongs_to :group
 - belongs_to :user
 
 ## messagesテーブル
 |Column|Type|Options|
 |------|----|-------|
-|text|string|null: false|
+|text|string|null: default|
+|img|string|null: default|
 |user_id|integer|null: false, foreign_key: true|
 |group_id|integer|null: false, foreign_key: true|
 
@@ -39,19 +43,7 @@
 - belongs_to :group
 - hasmany_to :user
 - hasmany_to :messages
-
-## imgsテーブル
-|Column|Type|Options|
-|------|----|-------|
-|img|string|null: false, unique|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
-
-### Association
-- belongs_to :group
-- hasmany_to :users
-- hasmany_to :imgs
-
+- hasmany_to :img
 
 # 機能洗い出しメモ
 ## ログイン
@@ -117,9 +109,9 @@
 - メッセージがチャット画面に表示される（リアルタイム）
 - サイドバーの最新のチャット1件が表示更新される（リアルタイムでない）
 - URLはクリッカブルにならない←なったほうが便利なのでメモ
-- 画像の送信が遅かったらテキストなどが優先される（早く送れるほうを優先する）
+- 画像の送信が遅かったらテキストなどが優先される（早く送れるほうを優先する？）早すぎてわからん
 - 画像が送られたら最新コメントに「画像が投稿されました」←ここは分岐でdb使わない
-- 画像投稿コメントとは紐づかない
+- 画像投稿コメントとは紐づかない×　ひもづく←アイコンに選択してる感がない逮捕
 - お話中のキックされてもそのチャットルームに残る、更新されるといなくなる（グループ内のユーザー管理はリアルタイムでない）
 - キックしてもチャット履歴は残る（ユーザーがいなくなっても、投稿されたコメントはなくならない）
 - キックされた人の履歴の名前も更新される(つまりグループから抜けてもメッセージとコメントは紐づいてる)
