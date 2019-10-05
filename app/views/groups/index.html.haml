@@ -1,0 +1,72 @@
+%body
+  .flash-box
+    .notice サクセスメッセージ
+  .wrapper
+    .chat-side
+      .side-header
+        .side-header__box
+          %p.side-header__box__user-name カレントユーザー名
+          %ul.side-header__box__menu
+            %li.side-header__box__menu__new-group
+              %a{:href => "#"}
+                %i.fa.fa-edit
+            %li.side-header__box__menu__edit-user
+              %a{:href => "#"}
+                %i.fa.fa-cog
+
+      .groups
+        %a{:href => "#"}
+          .group
+            %p.group__group-name グループ名
+            %p.group__latest-message 最新のメッセージ
+          .group
+            %p.group__group-name グループ名
+            %p.group__latest-message 最新のメッセージ
+
+    .chat-main
+      .main-header
+        .main-header__left-box
+
+          %h2.main-header__left-box__current-group{"data-group_id" => "xxxxx"}
+            現在見ているグループチャット
+
+          %ul.main-header__left-box__member-list
+            Member：
+            %li.main-header__left-box__member-list__member メンバーの名前
+            %li.main-header__left-box__member-list__member メンバーの名前
+
+        %a{:href => "#"}
+          .main-header__edit-btn Edit
+
+      .messages
+
+        .message{"data-message_id" => "xxxx"}
+          .message__upper-info
+            %p.message__upper-info__talker メンバーの名前
+            %p.message__upper-info__date 2019/10/03(Thu) 19:05:09
+          %p.message__text メッセージのみメッセージのみメッセージのみメッセージのみメッセージのみメッセージのみ
+
+        .message{"data-message_id" => "xxxx"}
+          .message__upper-info
+            %p.message__upper-info__talker メンバーの名前
+            %p.message__upper-info__date 2019/10/03(Thu) 19:05:09
+          %p.message__text
+          %img{:src => "https://chat-space-sample.herokuapp.com/uploads/message/image/5973/8a058_1223_4e2dbaea_96864126.jpg"}/
+
+        .message{"data-message_id" => "xxxx"}
+          .message__upper-info
+            %p.message__upper-info__talker メンバーの名前
+            %p.message__upper-info__date 2019/10/03(Thu) 19:05:09
+          %p.message__text メッセージと画像メッセージと画像メッセージと画像メッセージと画像メッセージと画像メッセージと画像
+          %img{:src => "https://chat-space-sample.herokuapp.com/uploads/message/image/5973/8a058_1223_4e2dbaea_96864126.jpg"}/
+  
+      .form
+        %form#new_message.new_message{"accept-charset" => "UTF-8", :action => "#", :enctype => "multipart/form-data", :method => "post"}
+          %input{:name => "utf8", :type => "hidden", :value => "✓"}/
+          %input{:name => "authenticity_token", :type => "hidden", :value => "xxxx"}/
+          .input-box
+            %input#message_content.input-box__text{:name => "message[content]", :placeholder => "type a message", :type => "text"}/
+            %label.input-box__image{:for => "message_image"}
+              %i.fa.fa-image
+              %input#message_image.input-box__image__file{:name => "message[image]", :type => "file"}/
+          %input.submit-btn{"data-disable-with" => "Send", :name => "commit", :type => "submit", :value => "Send"}/
